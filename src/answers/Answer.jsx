@@ -19,7 +19,6 @@ export const Answer = () => {
     }, {}))
   }, [numberOfAlternatives])
   const totalAnswerCount = Object.keys(answers || {}).reduce((totalAnswerCount, alternative) => totalAnswerCount + answers[alternative], 0)
-  console.log(answers, totalAnswerCount)
   const done = totalAnswerCount >= 10
   return <>
     <Heading textAlign='center' alignSelf='center' level={1} size='small' >Question</Heading>
