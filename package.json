@@ -10,6 +10,7 @@
     "firebase": "^7.23.0",
     "grommet": "^2.15.1",
     "immutable": "^4.0.0-rc.12",
+    "nanoid": "^3.1.12",
     "polished": "^4.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

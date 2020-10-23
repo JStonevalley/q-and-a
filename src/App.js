@@ -33,9 +33,7 @@ function App() {
             <Route path="/answer">
               <Answer database={database} />
             </Route>
-            <Route path="/question-set-controller">
-              <QuestionSetController database={database} />
-            </Route>
+            <Route path="/question-set-controller/:id?" component={QuestionSetController} />
           </Switch>
         </div>
       </Router>
