@@ -7,7 +7,8 @@ import {
   Route
 } from "react-router-dom";
 import { Answer } from './answers/Answer.jsx'
-import { QuestionSetController } from './question-set/QuestionSetController.jsx'
+import { QuestionSetCreator } from './question-set/QuestionSetCreator.jsx'
+import { QuestionSetRunner } from './question-set/QuestionSetRunner.jsx'
 import './App.css';
 import * as firebase from 'firebase/app'
 import 'firebase/database'
@@ -33,7 +34,8 @@ function App() {
             <Route path="/answer">
               <Answer database={database} />
             </Route>
-            <Route path="/question-set-controller/:id?" component={QuestionSetController} />
+            <Route path="/question-set-creator/:id?" component={QuestionSetCreator} />
+            <Route path="/question-set-runner/:id?/:round?" component={QuestionSetRunner} />
           </Switch>
         </div>
       </Router>

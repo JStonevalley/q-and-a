@@ -7,7 +7,7 @@ import 'firebase/database'
 
 const ALTERNATIVES = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ]
 
-export const QuestionSetController = ({ match, history }) => {
+export const QuestionSetCreator = ({ match, history }) => {
   const [ questions, setQuestions ] = useState(OrderedMap())
   useEffect(() => {
     if (!match.params.id) {
@@ -27,7 +27,6 @@ export const QuestionSetController = ({ match, history }) => {
   if (!match.params.id) return null
   const persistChanges = (questions) => {
     firebase.database().ref('questionSet/' + match.params.id).set(questions.toJS())
-    // setQuestions(questions)
   }
   console.log(questions.toJS())
   return <>
