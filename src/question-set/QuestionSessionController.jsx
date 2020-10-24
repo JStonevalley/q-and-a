@@ -4,13 +4,13 @@ import { Map, fromJS } from 'immutable'
 import * as firebase from 'firebase/app'
 import 'firebase/database'
 
-export const QuestionSetRunner = ({ match: { url, params: { id, round }}, history }) => {
+export const QuestionSessionController = ({ match: { url, params: { id, round }}, history }) => {
   const [ questions, setQuestions ] = useState()
   const [ session, _setSession ] = useState()
   useEffect(() => {
     if (id) {
       return firebase.database()
-        .ref(`/questionSet/${id}`)
+        .ref(`/questions/${id}`)
         .on('value', (snapshot) => {
           if (snapshot.exists()) setQuestions(fromJS({ ...snapshot.val() }))
         })
@@ -30,9 +30,9 @@ export const QuestionSetRunner = ({ match: { url, params: { id, round }}, histor
     firebase.database().ref(`session/${id}`).set(session.toJS())
   }
   return <>
-    <Heading textAlign='center' alignSelf='center' level={1} size='medium' >{questions ? 'Start Session' : 'Unknown question set'}</Heading>
-    {id && <Box direction='row' justify='center'>
-      <Box width={{"max": "500px"}} pad={{ horizontal: 'small'}}>
+    <Heading textAlign='center' alignSelf='center' level={1} size='medium' >{questions ? `Session ${id}` : 'No questions for this id :('}</Heading>
+    {id && questions && <Box direction='row' justify='center'>
+      <Box width={{"max": "500px"}} pad={{ horizontal: 'small' }}>
         {!session && <Button label='Start session' onClick={() => setSession(Map({ lastQuestion: -1 }))} />}
         {session && session.get('question') == null && <Button
           label={`Start question ${session.get('lastQuestion') + 2}`}
