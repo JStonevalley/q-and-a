@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Heading, Box } from 'grommet'
 import { Map, fromJS } from 'immutable'
+import QRCode from 'react-qr-code'
 import * as firebase from 'firebase/app'
 import 'firebase/database'
 
@@ -63,6 +64,9 @@ export const QuestionSessionController = ({ match: { url, params: { id, round }}
         />}
         {answersForCurrentQuestion != null && <Heading textAlign='center' alignSelf='center' level={2} size='large' >{answersForCurrentQuestion}</Heading>}
         {session && <Button label='End session' onClick={() => firebase.database().ref(`session/${id}`).remove()} />}
+        {id && <Box margin='large'>
+          <QRCode value={`http://192.168.1.224:3000/answer/${id}`} />
+        </Box>}
       </Box>
     </Box>}
   </>
