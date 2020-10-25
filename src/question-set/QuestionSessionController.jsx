@@ -41,12 +41,13 @@ export const QuestionSessionController = ({ match: { url, params: { id, round }}
     firebase.database().ref(`session/${id}`).set(session.toJS())
   }
   const lastQuestion = (session && session.get('lastQuestion') != null) ? session.get('lastQuestion') : -1
+  const answersForCurrentQuestion = session && session.get('round') != null && session.get('round') != null && answers && answers.get(String(session.get('round'))) && answers.get(String(session.get('round'))).filter((client) => client.get(lastQuestion)).size
   return <>
     <Heading textAlign='center' alignSelf='center' level={1} size='medium' >{questions ? `Session ${id}` : 'No questions for this id :('}</Heading>
     {id && questions && answers && <Box direction='row' justify='center'>
       <Box width={{"max": "500px"}} pad={{ horizontal: 'small' }}>
         {!session && <Button label='Start session' onClick={() => setSession(Map({ round: answers.size }))} />}
-        {session && session.get('question') == null && <Button
+        {session && session.get('question') == null && questions.get(String(lastQuestion + 1)) && <Button
           label={`Start question ${lastQuestion + 2}`}
           onClick={() => setSession(
             session
@@ -60,6 +61,7 @@ export const QuestionSessionController = ({ match: { url, params: { id, round }}
           onClick={() => setSession(session.delete('question'))}
           margin={{ vertical: 'medium'}}
         />}
+        {answersForCurrentQuestion != null && <Heading textAlign='center' alignSelf='center' level={2} size='large' >{answersForCurrentQuestion}</Heading>}
         {session && <Button label='End session' onClick={() => firebase.database().ref(`session/${id}`).remove()} />}
       </Box>
     </Box>}

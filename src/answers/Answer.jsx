@@ -34,7 +34,7 @@ export const Answer = ({ match: { url, params: { id }} }) => {
       return firebase.database()
         .ref(`/questions/${id}`)
         .on('value', (snapshot) => {
-          if (snapshot.exists()) setQuestions(fromJS({ ...snapshot.val() }))
+          if (snapshot && snapshot.exists()) setQuestions(fromJS({ ...snapshot.val() }))
         })
     }
   }, [id])
