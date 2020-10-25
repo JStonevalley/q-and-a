@@ -6,6 +6,7 @@ import 'firebase/database'
 
 export const QuestionSessionController = ({ match: { url, params: { id, round }}, history }) => {
   const [ questions, setQuestions ] = useState()
+  const [ answers, setAnswers ] = useState()
   const [ session, _setSession ] = useState()
   useEffect(() => {
     if (id) {
@@ -26,20 +27,31 @@ export const QuestionSessionController = ({ match: { url, params: { id, round }}
         })
     }
   }, [history, id])
+  useEffect(() => {
+    if (id) {
+      return firebase.database()
+        .ref(`/answers/${id}`)
+        .on('value', (snapshot) => {
+          if (snapshot && snapshot.exists()) setAnswers(fromJS({ ...snapshot.val() }))
+          else setAnswers(Map())
+        })
+    }
+  }, [history, id])
   const setSession = (session) => {
     firebase.database().ref(`session/${id}`).set(session.toJS())
   }
+  const lastQuestion = (session && session.get('lastQuestion') != null) ? session.get('lastQuestion') : -1
   return <>
     <Heading textAlign='center' alignSelf='center' level={1} size='medium' >{questions ? `Session ${id}` : 'No questions for this id :('}</Heading>
-    {id && questions && <Box direction='row' justify='center'>
+    {id && questions && answers && <Box direction='row' justify='center'>
       <Box width={{"max": "500px"}} pad={{ horizontal: 'small' }}>
-        {!session && <Button label='Start session' onClick={() => setSession(Map({ lastQuestion: -1 }))} />}
+        {!session && <Button label='Start session' onClick={() => setSession(Map({ round: answers.size }))} />}
         {session && session.get('question') == null && <Button
-          label={`Start question ${session.get('lastQuestion') + 2}`}
+          label={`Start question ${lastQuestion + 2}`}
           onClick={() => setSession(
             session
-              .set('lastQuestion', session.get('lastQuestion') + 1)
-              .set('question', session.get('lastQuestion') + 1)
+              .set('lastQuestion', lastQuestion + 1)
+              .set('question', lastQuestion + 1)
           )}
           margin={{ vertical: 'medium'}}
         />}

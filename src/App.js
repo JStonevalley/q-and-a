@@ -23,19 +23,15 @@ firebase.initializeApp({
   appId: "1:209384965317:web:552852f1ae5e25ab175cac"
 });
 
-const database = firebase.database()
-
 function App() {
   return (
     <Grommet theme={theme}>
       <Router>
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
           <Switch>
-            <Route path="/answer">
-              <Answer database={database} />
-            </Route>
+            <Route path="/answer/:id?" component={Answer} />
             <Route path="/questions-creator/:id?" component={QuestionsCreator} />
-            <Route path="/question-session-controller/:id?/:round?" component={QuestionSessionController} />
+            <Route path="/question-session-controller/:id?" component={QuestionSessionController} />
           </Switch>
         </div>
       </Router>
