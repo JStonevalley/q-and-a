@@ -48,7 +48,7 @@ export const Answer = ({ match: { url, params: { id }} }) => {
         })
     }
   }, [id, session])
-  if (session === undefined || !questions || !answers) return null
+  if (session === undefined || !questions) return null
   else if (session === null) return <Heading textAlign='center' alignSelf='center' level={1} size='small' >Waiting for session to start</Heading>
   else if (session && session.get('question') == null) return <Heading textAlign='center' alignSelf='center' level={1} size='small' >Waiting for next question</Heading>
   const submitAnswer = (answer) => {
